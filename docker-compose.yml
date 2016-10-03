@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  zk1:
+    build:
+      context: ./zookeeper
+      args:
+        - SERVERNUM=1
+    volumes:
+      - zk_vol1:/opt/zookeeperdata
+  zk2:
+    build:
+      context: ./zookeeper
+      args:
+        - SERVERNUM=2
+    volumes:
+      - zk_vol2:/opt/zookeeperdata
+  zk3:
+    build:
+      context: ./zookeeper
+      args:
+        - SERVERNUM=3
+    volumes:
+      - zk_vol3:/opt/zookeeperdata
+volumes:
+  zk_vol1:
+  zk_vol2:
+  zk_vol3:
