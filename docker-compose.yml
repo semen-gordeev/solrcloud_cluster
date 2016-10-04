@@ -2,27 +2,62 @@ version: '2'
 
 services:
   zk1:
-    build:
-      context: ./zookeeper
-      args:
-        - SERVERNUM=1
+    build: ./zookeeper
+    environment:
+      - SERVERNUM=1
     volumes:
       - zk_vol1:/opt/zookeeperdata
   zk2:
-    build:
-      context: ./zookeeper
-      args:
-        - SERVERNUM=2
+    build: ./zookeeper
+    environment:
+      - SERVERNUM=2
     volumes:
       - zk_vol2:/opt/zookeeperdata
   zk3:
-    build:
-      context: ./zookeeper
-      args:
-        - SERVERNUM=3
+    build: ./zookeeper
+    environment:
+      - SERVERNUM=3
     volumes:
       - zk_vol3:/opt/zookeeperdata
+  solr1:
+    build: ./solr
+    volumes:
+      - solr_vol1:/opt/solr/server/solr
+    ports:
+      - 8983:8983
+    depends_on:
+      - zk1
+      - zk2
+      - zk3
+  solr2:
+    build: ./solr
+    volumes:
+      - solr_vol2:/opt/solr/server/solr
+    depends_on:
+      - zk1
+      - zk2
+      - zk3
+  solr3:
+    build: ./solr
+    volumes:
+      - solr_vol3:/opt/solr/server/solr
+    depends_on:
+      - zk1
+      - zk2
+      - zk3
+  solr4:
+    build: ./solr
+    volumes:
+      - solr_vol4:/opt/solr/server/solr
+    depends_on:
+      - zk1
+      - zk2
+      - zk3
 volumes:
   zk_vol1:
   zk_vol2:
   zk_vol3:
+  solr_vol1:
+  solr_vol2:
+  solr_vol3:
+  solr_vol4:
